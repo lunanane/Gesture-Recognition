@@ -4,9 +4,10 @@ from PIL import Image
 from keras import models
 
 #Load the saved model
-model = models.load_model('model-00001.h5')
+model = models.load_model('model-00001-0.26667.h5')
 video = cv2.VideoCapture(0)
 
+class_names = ["No gesture", "Swiping Left", "Swiping Right" , "Swiping Down", "Swiping Up"]
 while True:
     _, frame = video.read()
 
@@ -30,9 +31,15 @@ while True:
     #print(img_array)
 
     #Calling the predict method on model to predict 'me' on the image
-    i = model.predict(img_array)[0][0]
-
-
+    
+    
+    #what is the difference between predict and predict_on_batch??
+    
+    #i = model.predict(img_array)[0][0]
+    
+    i = model.predict_on_batch(img_array)[0]
+    
+    prediction_final = np.argmax(i)
     #preds = model.predict(img_array)[0]
     #Q.append(preds)
     
@@ -40,7 +47,7 @@ while True:
     #i = np.argmax(results)
     
     print(i)
-
+    print (prediction_final)
     #if prediction is 0, which means I am missing on the image, then show the frame in gray color.
     #if prediction == 0:
     
