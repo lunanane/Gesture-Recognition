@@ -12,26 +12,39 @@ while True:
 
     #Convert the captured frame into RGB
     im = Image.fromarray(frame, 'RGB')
-
     #Resizing into 128x128 because we trained the model with this image size.
     im = im.resize((100,100))
+    
+    
     img_array = np.array(im)
+
+    img_array = np.expand_dims(img_array, axis=0)
+
+    #img_array = img_array.reshape( (1,) + img_array.shape )
 
     #Our keras model used a 4D tensor, (images x height x width x channel)
     #So changing dimension 128x128x3 into 1x128x128x3 
 
     img_array = np.expand_dims(img_array, axis=0)
-    img_array = np.expand_dims(img_array, axis=0)
-    
+
     #print(img_array)
 
     #Calling the predict method on model to predict 'me' on the image
-    prediction = int(model.predict(img_array)[0][0])
+    i = model.predict(img_array)[0][0]
+
+
+    #preds = model.predict(img_array)[0]
+    #Q.append(preds)
+    
+    #results = np.array(Q).mean(axis=0)
+    #i = np.argmax(results)
+    
+    print(i)
 
     #if prediction is 0, which means I am missing on the image, then show the frame in gray color.
-    if prediction == 0:
+    #if prediction == 0:
     
-        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        #frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
     cv2.imshow("Capturing", frame)
     key=cv2.waitKey(1)
