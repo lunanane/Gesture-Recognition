@@ -4,7 +4,7 @@ from PIL import Image
 from keras import models
 
 #Load the saved model
-model = models.load_model('model-00001-0.26667.h5')
+model = models.load_model('model-00035-0.79167.h5')
 video = cv2.VideoCapture(0)
 
 class_names = ["No gesture", "Swiping Left", "Swiping Right" , "Swiping Down", "Swiping Up"]
@@ -37,7 +37,7 @@ while True:
     
     #i = model.predict(img_array)[0][0]
     
-    i = model.predict_on_batch(img_array)[0]
+    i = model.predict(img_array)[0]
     
     prediction_final = np.argmax(i)
     #preds = model.predict(img_array)[0]
