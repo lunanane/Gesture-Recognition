@@ -42,16 +42,19 @@ new_model = models.load_model('model-ver2-18frames-00024-0.90000.h5')
 to_predict = []
 num_frames = 0
 cap = cv2.VideoCapture(0)
-classe =''
 
+classe =''
+counter= 0
 while(True):
     # Capture frame-by-frame
     ret, frame = cap.read()
-
+    counter+=1
+    divider = counter/2  % 1
     # Our operations on the frame come here
     #gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    to_predict.append(cv2.resize(frame, (texture_width, texture_height)))
-    
+    if divider == 0.0:
+        to_predict.append(cv2.resize(frame, (texture_width, texture_height)))
+
          
     if len(to_predict) == texture_array_len:
         frame_to_predict = np.array(to_predict, dtype=np.float32)
@@ -64,7 +67,9 @@ while(True):
 
 
         #print(frame_to_predict)
-        to_predict = []
+        #to_predict = []
+        to_predict.pop()
+        
         #sleep(0.1) # Time in seconds
         #font = cv2.FONT_HERSHEY_SIMPLEX
     cv2.putText(frame, classe, (30, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 0),1,cv2.LINE_AA)
